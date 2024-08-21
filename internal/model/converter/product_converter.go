@@ -1,8 +1,8 @@
 package converter
 
 import (
-	"edot-monorepo/product-service/internal/entity"
-	"edot-monorepo/product-service/internal/model"
+	"edot-monorepo/services/product-service/internal/entity"
+	"edot-monorepo/services/product-service/internal/model"
 )
 
 func ProductToResponse(product entity.Product) *model.Product {

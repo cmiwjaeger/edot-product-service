@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"edot-monorepo/product-service/internal/model"
-	"edot-monorepo/product-service/internal/usecase"
+	"edot-monorepo/services/product-service/internal/model"
+	"edot-monorepo/services/product-service/internal/usecase"
 	"strconv"
 
 	"github.com/go-playground/validator/v10"

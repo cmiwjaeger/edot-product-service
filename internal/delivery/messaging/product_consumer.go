@@ -1,7 +1,7 @@
 package messaging
 
 import (
-	"edot-monorepo/product-service/internal/model"
+	"edot-monorepo/services/product-service/internal/model"
 	"encoding/json"
 
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"

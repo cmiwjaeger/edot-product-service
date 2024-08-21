@@ -1,7 +1,7 @@
 package route
 
 import (
-	http "edot-monorepo/product-service/internal/delivery/http/controller"
+	http "edot-monorepo/services/product-service/internal/delivery/http/controller"
 
 	"github.com/gofiber/fiber/v2"
 )

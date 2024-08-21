@@ -7,8 +7,8 @@ import (
 	"syscall"
 	"time"
 
-	"edot-monorepo/product-service/internal/config"
-	"edot-monorepo/product-service/internal/delivery/messaging"
+	"edot-monorepo/services/product-service/internal/config"
+	"edot-monorepo/services/product-service/internal/delivery/messaging"
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"

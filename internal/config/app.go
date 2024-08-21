@@ -1,10 +1,10 @@
 package config
 
 import (
-	"edot-monorepo/product-service/internal/delivery/http/controller"
-	"edot-monorepo/product-service/internal/delivery/http/route"
-	repository "edot-monorepo/product-service/internal/repository/gorm"
-	"edot-monorepo/product-service/internal/usecase"
+	"edot-monorepo/services/product-service/internal/delivery/http/controller"
+	"edot-monorepo/services/product-service/internal/delivery/http/route"
+	repository "edot-monorepo/services/product-service/internal/repository/gorm"
+	"edot-monorepo/services/product-service/internal/usecase"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"

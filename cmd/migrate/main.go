@@ -1,7 +1,7 @@
 package main
 
 import (
-	"edot-monorepo/product-service/internal/config"
+	"edot-monorepo/services/product-service/internal/config"
 	"fmt"
 	"io/ioutil"
 	"os"

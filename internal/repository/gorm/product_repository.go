@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"edot-monorepo/product-service/internal/entity"
+	"edot-monorepo/services/product-service/internal/entity"
 
 	"github.com/sirupsen/logrus"
 )

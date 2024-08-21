@@ -22,5 +22,5 @@ func (c *RouteConfig) SetupGuestRoute() {
 }
 
 func (c *RouteConfig) SetupAuthRoute() {
-	c.App.Use(c.AuthMiddleware)
+	// c.App.Use(c.AuthMiddleware)
 }

@@ -1,5 +1,0 @@
-package cmdproduct
-
-func main() {
-
-}

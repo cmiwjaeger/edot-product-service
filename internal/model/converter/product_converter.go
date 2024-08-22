@@ -5,9 +5,9 @@ import (
 	"edot-monorepo/services/product-service/internal/model"
 )
 
-func ProductToResponse(product entity.Product) *model.Product {
+func ProductToResponse(product entity.Product) *model.ProductResponse {
 
-	return &model.Product{
+	return &model.ProductResponse{
 		ID:    product.ID,
 		Name:  product.Name,
 		Price: product.Price,
@@ -15,8 +15,8 @@ func ProductToResponse(product entity.Product) *model.Product {
 
 }
 
-func ProductListToProductDetailList(products []entity.Product) []*model.Product {
-	productResponse := make([]*model.Product, len(products))
+func ProductListToProductDetailList(products []entity.Product) []*model.ProductResponse {
+	productResponse := make([]*model.ProductResponse, len(products))
 
 	for i, product := range products {
 

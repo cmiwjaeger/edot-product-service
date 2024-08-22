@@ -2,15 +2,15 @@ package model
 
 import "github.com/google/uuid"
 
-type Product struct {
+type ProductResponse struct {
 	ID    uuid.UUID
 	Name  string
 	Price float64
 }
 
-type ProductWithWarehouse struct {
-	Product
-	Warehouse Warehouse
+type ProductWithWarehouseResponse struct {
+	ProductResponse
+	Warehouse WarehouseResponse
 }
 
 type ProductListRequest struct {

@@ -38,7 +38,7 @@ func (c *ProductController) List(ctx *fiber.Ctx) error {
 		return err
 	}
 
-	return ctx.JSON(model.WebResponse[[]*model.Product]{
+	return ctx.JSON(model.WebResponse[[]*model.ProductResponse]{
 		Data: response,
 	})
 

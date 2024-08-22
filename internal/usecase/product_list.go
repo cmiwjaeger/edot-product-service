@@ -26,7 +26,7 @@ func NewProductListUseCase(db *gorm.DB, log *logrus.Logger, repo *repository.Pro
 	}
 }
 
-func (u *ProductListUseCase) Exec(ctx context.Context, request *model.ProductListRequest) ([]*model.Product, error) {
+func (u *ProductListUseCase) Exec(ctx context.Context, request *model.ProductListRequest) ([]*model.ProductResponse, error) {
 	products := make([]entity.Product, 0)
 
 	err := u.ProductRepository.FindAll(u.DB, &products)

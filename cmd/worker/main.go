@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"edot-monorepo/services/product-service/internal/config"
-	"edot-monorepo/services/product-service/internal/delivery/messaging"
 
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -40,8 +39,8 @@ func main() {
 }
 
 func RunProductConsumer(logger *logrus.Logger, viperConfig *viper.Viper, ctx context.Context) {
-	logger.Info("setup address consumer")
-	addressConsumer := config.NewKafkaConsumer(viperConfig, logger)
-	addressHandler := messaging.NewProductConsumer(logger)
-	messaging.ConsumeTopic(ctx, addressConsumer, "addresses", logger, addressHandler.Consume)
+	logger.Info("setup product consumer")
+	// productConsumer := config.NewKafkaConsumer(viperConfig, logger)
+	// addressHandler := messaging.NewProductConsumer(logger)
+	// messaging.ConsumeTopic(ctx, productConsumer, "addresses", logger, addressHandler.Consume)
 }

@@ -7,6 +7,9 @@ build:
 run:
 	@go run cmd/web/main.go
 
+run-worker:
+	@go run cmd/worker/main.go
+	
 test:
 	@go test ./... -v
 

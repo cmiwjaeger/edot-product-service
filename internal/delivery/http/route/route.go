@@ -18,6 +18,7 @@ func (c *RouteConfig) Setup() {
 }
 func (c *RouteConfig) SetupGuestRoute() {
 	c.App.Get("/api/product", c.ProductController.List)
+	c.App.Post("/api/product", c.ProductController.Create)
 
 }
 

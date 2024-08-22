@@ -28,6 +28,6 @@ func (r *Repository[T]) FindById(db *gorm.DB, entity *T, id any) error {
 	return db.Where("id = ?", id).Take(entity).Error
 }
 
-func (r *Repository[T]) FindAll(db *gorm.DB, entity *[]T) error {
-	return db.Joins("left join warehouses w on products.id = w.id").Find(entity).Error
+func (r *Repository[T]) FindAll(db *gorm.DB, data *[]T) error {
+	return db.Find(data).Error
 }

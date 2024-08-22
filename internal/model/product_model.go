@@ -2,6 +2,10 @@ package model
 
 import "github.com/google/uuid"
 
+type ProductCreateRequest struct {
+	Name   string
+	ShopID uuid.UUID
+}
 type ProductResponse struct {
 	ID    uuid.UUID
 	Name  string

@@ -5,24 +5,18 @@ import (
 	"edot-monorepo/services/product-service/internal/entity"
 	"edot-monorepo/services/product-service/internal/model"
 	"edot-monorepo/services/product-service/internal/model/converter"
-	repository "edot-monorepo/services/product-service/internal/repository/gorm"
 
 	"github.com/gofiber/fiber/v2/log"
-	"github.com/sirupsen/logrus"
-	"gorm.io/gorm"
 )
 
 type ProductListUseCase struct {
-	DB                *gorm.DB
-	Log               *logrus.Logger
-	ProductRepository *repository.ProductRepository
+	*ProductBaseUseCase
 }
 
-func NewProductListUseCase(db *gorm.DB, log *logrus.Logger, repo *repository.ProductRepository) *ProductListUseCase {
+func NewProductListUseCase(productBaseUseCase *ProductBaseUseCase) *ProductListUseCase {
 
 	return &ProductListUseCase{
-		DB:                db,
-		ProductRepository: repo,
+		productBaseUseCase,
 	}
 }
 

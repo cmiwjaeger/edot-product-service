@@ -1,7 +1,7 @@
 package messaging
 
 import (
-	"edot-monorepo/services/product-service/internal/model"
+	"edot-monorepo/shared/events"
 	"encoding/json"
 
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
@@ -19,7 +19,7 @@ func NewProductConsumer(log *logrus.Logger) *ProductConsumer {
 }
 
 func (c ProductConsumer) Consume(message *kafka.Message) error {
-	ContactEvent := new(model.ProductCreatedEvent)
+	ContactEvent := new(events.ProductCreatedEvent)
 	if err := json.Unmarshal(message.Value, ContactEvent); err != nil {
 		c.Log.WithError(err).Error("error unmarshalling Contact event")
 		return err

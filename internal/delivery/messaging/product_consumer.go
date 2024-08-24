@@ -4,10 +4,11 @@ import (
 	"context"
 	"edot-monorepo/services/product-service/internal/entity"
 	"edot-monorepo/shared/events"
+
 	"encoding/json"
 
-	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 	"github.com/go-playground/validator/v10"
+	"github.com/segmentio/kafka-go"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
@@ -42,7 +43,7 @@ func (c ProductConsumer) ConsumeShopCreated(message *kafka.Message) error {
 		c.Log.WithError(err).Error("error insert into db")
 	}
 
-	c.Log.Infof("Received topic  with event: %v from partition %d", event, message.TopicPartition.Partition)
+	c.Log.Infof("Received topic  with event: %v from partition %s", event, message.Topic)
 	return nil
 }
 
@@ -62,6 +63,6 @@ func (c ProductConsumer) ConsumeWarehouseCreated(message *kafka.Message, ctx con
 		c.Log.WithError(err).Error("error insert into db")
 	}
 
-	c.Log.Infof("Received topic warehouse with event: %v from partition %d", event, message.TopicPartition.Partition)
+	c.Log.Infof("Received topic warehouse with event: %v from partition %s", event, message.Topic)
 	return nil
 }

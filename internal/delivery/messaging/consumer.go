@@ -2,47 +2,44 @@ package messaging
 
 import (
 	"context"
-	"time"
 
-	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
+	"github.com/segmentio/kafka-go"
 	"github.com/sirupsen/logrus"
 )
 
-type ConsumerHandler func(message *kafka.Message) error
+type ConsumerHandler func(ctx context.Context, message *kafka.Message) error
 
-func ConsumeTopic(ctx context.Context, consumer *kafka.Consumer, topic string, log *logrus.Logger, handler ConsumerHandler) {
-	err := consumer.Subscribe(topic, nil)
-	if err != nil {
-		log.Fatalf("Failed to subscribe to topic: %v", err)
+type Consumer struct {
+	Reader *kafka.Reader
+}
+
+func NewConsumer(reader *kafka.Reader) *Consumer {
+	return &Consumer{
+		Reader: reader,
 	}
+}
 
-	run := true
-
-	for run {
-		select {
-		case <-ctx.Done():
-			run = false
-		default:
-			message, err := consumer.ReadMessage(time.Second)
-			if err == nil {
-				err := handler(message)
-				if err != nil {
-					log.Errorf("Failed to process message: %v", err)
-				} else {
-					_, err = consumer.CommitMessage(message)
-					if err != nil {
-						log.Fatalf("Failed to commit message: %v", err)
-					}
-				}
-			} else if !err.(kafka.Error).IsTimeout() {
-				log.Warnf("Consumer error: %v (%v)\n", err, message)
-			}
+func (c *Consumer) Consume(ctx context.Context, handlers map[string]ConsumerHandler, log *logrus.Logger) (err error) {
+	for {
+		m, errM := c.Reader.ReadMessage(ctx)
+		if errM != nil {
+			log.Printf("Failed to read message: %v\n", err)
+			return
 		}
-	}
+		log.Printf("Received message: %s = %s\n", string(m.Key), string(m.Value))
 
-	log.Infof("Closing consumer for topic : %s", topic)
-	err = consumer.Close()
-	if err != nil {
-		panic(err)
+		if handler, exist := handlers[m.Topic]; exist {
+			err = handler(ctx, &m)
+			if err != nil {
+				log.Errorf("Failed to process message on topic %s: %v", m.Topic, err)
+			} else {
+				err = c.Reader.CommitMessages(ctx, m)
+				if err != nil {
+					log.Fatalf("Failed to commit message on topic %s: %v", m.Topic, err)
+				}
+			}
+		} else {
+			log.Warnf("No handler found for topic %s", m.Topic)
+		}
 	}
 }

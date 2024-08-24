@@ -1,44 +1,38 @@
 package messaging
 
 import (
-	"edot-monorepo/services/product-service/internal/model"
+	"context"
+	"edot-monorepo/shared/events"
+
 	"encoding/json"
 
-	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
+	"github.com/segmentio/kafka-go"
 	"github.com/sirupsen/logrus"
 )
 
-type Producer[T model.Event] struct {
-	Producer *kafka.Producer
-	Topic    string
-	Log      *logrus.Logger
+type Producer struct {
+	Writer *kafka.Writer
+	Log    *logrus.Logger
 }
 
-func (p *Producer[T]) GetTopic() *string {
-	return &p.Topic
+func NewProducer(writer *kafka.Writer, log *logrus.Logger) *Producer {
+	return &Producer{
+		Writer: writer,
+		Log:    log,
+	}
 }
 
-func (p *Producer[T]) SendAsync(event T) error {
+func (p *Producer) Produce(ctx context.Context, topic string, event events.Event) (err error) {
+
 	value, err := json.Marshal(event)
 	if err != nil {
 		p.Log.WithError(err).Error("failed to marshal event")
 		return err
 	}
-
-	message := &kafka.Message{
-		TopicPartition: kafka.TopicPartition{
-			Topic:     p.GetTopic(),
-			Partition: kafka.PartitionAny,
-		},
-		Value: value,
+	err = p.Writer.WriteMessages(ctx, kafka.Message{
+		Topic: topic,
 		Key:   []byte(event.GetId()),
-	}
-
-	err = p.Producer.Produce(message, nil)
-	if err != nil {
-		p.Log.WithError(err).Error("failed to produce message")
-		return err
-	}
-
-	return nil
+		Value: value,
+	})
+	return
 }

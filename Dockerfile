@@ -1,41 +1,31 @@
-# Step 1: Build the Go binary
-FROM golang:1.20-alpine AS builder
+# Use the official Golang image from the Docker Hub
+FROM golang:1.23 AS builder
 
-# Set environment variables
-ENV GO111MODULE=on
-ENV CGO_ENABLED=0
-ENV GOOS=linux
-ENV GOARCH=amd64
+# Set the Current Working Directory inside the container
+WORKDIR /app/services/product-service
 
-# Create app directory
-WORKDIR /app
+# Copy the go.mod and go.sum files from the root directory
+COPY go.mod go.sum services/product-service/config.json  ../../
+COPY shared/ ../../shared
 
-# Copy go.mod and go.sum files
-COPY go.mod go.sum ./
-
-# Download and cache modules
+# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
 RUN go mod download
 
-# Copy the rest of the application
-COPY ./services/product-service/ .
+# Copy the source code of the service into the container
+COPY ./services/product-service .
 
 # Build the Go app
-RUN go build -o main .
+RUN GOARCH=amd64 GOOS=linux go build -o main ./cmd/web/main.go
 
-# Step 2: Create the final lightweight image
 FROM alpine:latest
 
-# Install CA certificates
-RUN apk --no-cache add ca-certificates
+WORKDIR /app
 
-# Set the working directory
-WORKDIR /root/
+COPY --from=builder /app/services/product-service/main .
+COPY --from=builder /app/services/product-service/config.json .
 
-# Copy the built Go binary from the builder stage
-COPY --from=builder /app/main .
+EXPOSE 3105
 
-# Expose the port the app runs on
-EXPOSE 8080
-
-# Command to run the Go app
+# Command to run the executable
 CMD ["./main"]
+

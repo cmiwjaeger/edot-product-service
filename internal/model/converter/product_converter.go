@@ -14,7 +14,6 @@ func ProductToEvent(item *entity.Product) *events.ProductCreatedEvent {
 }
 
 func ProductToResponse(product *entity.Product) *model.ProductResponse {
-
 	return &model.ProductResponse{
 		ID:    product.ID,
 		Name:  product.Name,
@@ -24,11 +23,8 @@ func ProductToResponse(product *entity.Product) *model.ProductResponse {
 
 func ProductListToProductDetailList(products []entity.Product) []*model.ProductResponse {
 	productResponse := make([]*model.ProductResponse, len(products))
-
 	for i, product := range products {
-
 		productResponse[i] = ProductToResponse(&product)
 	}
-
 	return productResponse
 }

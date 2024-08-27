@@ -1,6 +1,6 @@
 
 CREATE TABLE shops (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id UUID PRIMARY,
     name VARCHAR(255) NOT NULL,
     address TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -18,7 +18,7 @@ CREATE TABLE products (
 );
 
 CREATE TABLE warehouses (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id UUID PRIMARY,
     name VARCHAR(255) NOT NULL,
     status BOOLEAN DEFAULT TRUE,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -26,7 +26,7 @@ CREATE TABLE warehouses (
 );
 
 CREATE TABLE product_stock (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    id UUID PRIMARY,
     product_id UUID REFERENCES products(id) ON DELETE CASCADE,
     warehouse_id UUID REFERENCES warehouses(id) ON DELETE CASCADE,
     qty BIGINT,
